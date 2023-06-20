@@ -28,6 +28,54 @@
         return outcome;
     }
 
+    public static int[] AdaptComputerBias(int[] oldBias, string playerLastUsed)
+    {
+        int[] newBias = oldBias;
+        Random rng = new Random();
+        rng.Next(2);
+
+        switch (playerLastUsed)
+        {
+            case "rock":
+                newBias[1]++;
+                switch (rng.Next(2))
+                {
+                    case 0:
+                        newBias[0]--;
+                        break;
+                    case 1:
+                        newBias[2]--;
+                        break;
+                }
+                return newBias;
+            case "paper":
+                newBias[2]++;
+                switch (rng.Next(2))
+                {
+                    case 0:
+                        newBias[0]--;
+                        break;
+                    case 1:
+                        newBias[1]--;
+                        break;
+                }
+                return newBias;
+            default:
+                newBias[0]++;
+                switch (rng.Next(2))
+                {
+                    case 0:
+                        newBias[1]--;
+                        break;
+                    case 1:
+                        newBias[2]--;
+                        break;
+                }
+                return newBias;
+        }
+        
+    }
+
     public static string GenerateComputerChoice(int[] bias)
     {
         Random rng = new Random();
@@ -98,6 +146,10 @@
             {
                 Console.Clear();
                 Console.WriteLine($"Wins: {playerWins}, Loses: {playerLoses}, Ties: {ties}");
+
+                // Displays the computer bias
+                Console.WriteLine($"Computer bias: Rock: {compBias[0]}, Paper: {compBias[1]}, Scissors: {compBias[2]}");
+
                 Console.WriteLine("\nChoose rock, paper, scissors, quit, or restart");
                 Console.Write("Choice: ");
                 string playerInput = Console.ReadLine();
@@ -136,6 +188,7 @@
                             Console.Write("It's a tie.");
                             break;
                     };
+                    compBias = AdaptComputerBias(compBias, playerInput);
                     Console.Write("\nType any key to continue...");
                     Console.ReadKey();
                 }
