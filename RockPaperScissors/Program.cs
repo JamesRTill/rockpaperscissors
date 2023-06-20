@@ -3,7 +3,7 @@
 
     public static void Quit()
     {
-        
+        Environment.Exit(0);
     }
 
     public static int[] GenerateRandomBias()
@@ -98,7 +98,7 @@
             {
                 Console.Clear();
                 Console.WriteLine($"Wins: {playerWins}, Loses: {playerLoses}, Ties: {ties}");
-                Console.WriteLine("\nChoose rock, paper, scissors, or restart");
+                Console.WriteLine("\nChoose rock, paper, scissors, quit, or restart");
                 Console.Write("Choice: ");
                 string playerInput = Console.ReadLine();
                 if (playerInput == null)
