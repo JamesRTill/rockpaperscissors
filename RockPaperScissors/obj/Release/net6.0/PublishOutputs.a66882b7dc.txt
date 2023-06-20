@@ -1,0 +1,5 @@
+C:\Users\James\Desktop\RockPaperScissors.exe
+C:\Users\James\Desktop\RockPaperScissors.dll
+C:\Users\James\Desktop\RockPaperScissors.deps.json
+C:\Users\James\Desktop\RockPaperScissors.runtimeconfig.json
+C:\Users\James\Desktop\RockPaperScissors.pdb
