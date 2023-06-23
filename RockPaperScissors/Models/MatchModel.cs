@@ -1,6 +1,6 @@
 ﻿namespace RockPaperScissors.Models
 {
-    internal class MatchModel
+    internal class MatchModel : DialogueController
     {
         private ComputerAIModel computer;
         private PlayerModel player;
@@ -50,7 +50,7 @@
             Environment.Exit(0);
         }
 
-        public void startFight(int winCondition)
+        public bool StartFight(int winCondition)
         {
             int playerWins = 0, playerLoses = 0, ties = 0;
             winCount = winCondition;
@@ -58,20 +58,17 @@
 
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine($"Wins: {playerWins}, Loses: {playerLoses}, Ties: {ties}");
+                ClearAndWrite($"Wins: {playerWins}, Loses: {playerLoses}, Ties: {ties}");
                 // Displays current computer bias and aggression
-                //Console.WriteLine($"Computer aggression: +{computer.aggression}, Computer bias: Rock: { computer.bias[0]}, Paper: { computer.bias[1]}, Scissors: { computer.bias[2]}");
-                Console.WriteLine($"Opponent: {computer.name}");
-                Console.WriteLine("\nChoose rock, paper, scissors, quit, or restart");
-                Console.Write("Choice: ");
+                //WriteLine($"Computer aggression: +{computer.aggression}, Computer bias: Rock: { computer.bias[0]}, Paper: { computer.bias[1]}, Scissors: { computer.bias[2]}");
+                WriteLine($"Opponent: {computer.name}");
+                WriteLine("\nChoose rock, paper, scissors, quit, or restart");
+                Write("Choice: ");
                 string playerInput = Console.ReadLine();
                 if (playerInput == null)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Please make a valid choice.");
-                    Console.Write("Press any key to continue");
-                    Console.ReadKey();
+                    ClearAndWrite("Please make a valid choice.");
+                    WaitForPlayerContinue();
                 }
                 else if (playerInput == "quit")
                 {
@@ -83,35 +80,40 @@
                 }
                 else if (playerInput == "rock" || playerInput == "paper" || playerInput == "scissors")
                 {
-                    Console.Clear();
+                    ClearConsole();
                     computerInput = computer.GenerateChoice();
-                    Console.WriteLine($"The computer chose: {computerInput}.");
+                    WriteLine($"The computer chose: {computerInput}.");
                     switch (ComputeOutcome(playerInput, computerInput))
                     {
                         case "win":
                             playerWins++;
-                            Console.WriteLine("You won!");
+                            WriteLine("You won!");
                             break;
                         case "loss":
                             playerLoses++;
-                            Console.WriteLine("You lost.");
+                            WriteLine("You lost.");
                             break;
                         case "tie":
                             ties++;
-                            Console.WriteLine("It's a tie.");
+                            WriteLine("It's a tie.");
                             break;
                     };
                     if (playerWins == winCount)
                     {
-                        Console.WriteLine("You won the match");
+                        WriteLine("You won the match!");
+                        WaitForPlayerContinue();
+                        ClearConsole();
+                        return true;
                     } else if (playerLoses == winCount) {
-                        Console.WriteLine("You lost the match");
+                        WriteLine("You lost the match...");
+                        WaitForPlayerContinue();
+                        ClearConsole();
+                        return false;
                     } else
                     {
                         computer.AdaptBias(playerInput);
                     }
-                    Console.Write("\nType any key to continue...");
-                    Console.ReadKey();
+                    WaitForPlayerContinue();
                 }
                 else
                 {
@@ -121,6 +123,7 @@
                     Console.ReadKey();
                 }
             }
+            return false;
         }
     }
 }
